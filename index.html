@@ -314,8 +314,8 @@
         var keyboard = {};
         var player = { height:450, speed:5, turnSpeed:Math.PI*0.01 };
         var USE_WIREFRAME = false;
-        var lightColour = 0xD98400; //D98400
-        var lightDistance = 100//10; //3
+        var lightColour = 0xFFFFE0; //D98400
+        var lightDistance = 1//10; //3
         var lightDecay = 700; //280
         var StageLightColour = 0x3333ff;
         var StageLightDistance = 100; //18
@@ -465,7 +465,7 @@
             //testLight6.shadow.camera.near = 100;
             //testLight6.shadow.camera.far = 1000;
 
-            scene.add(testLight6);
+            //scene.add(testLight6);
             //var sphereSize = 40;
             //var pointLightHelper = new THREE.PointLightHelper( testLight6, sphereSize );
             //scene.add( pointLightHelper );
@@ -480,7 +480,7 @@
             //testLight7.shadow.camera.near = 100;
             //testLight7.shadow.camera.far = 1000;
 
-            scene.add(testLight7);
+            //scene.add(testLight7);
             //var sphereSize = 40;
             //var pointLightHelper = new THREE.PointLightHelper( testLight7, sphereSize );
             //scene.add( pointLightHelper );
@@ -495,7 +495,7 @@
             //testLight8.shadow.camera.near = 100;
             //testLight8.shadow.camera.far = 1000;
 
-            scene.add(testLight8);
+            //scene.add(testLight8);
 
 
 
@@ -733,32 +733,22 @@
             mtlLoader = new THREE.MTLLoader(loadingManager);
 
             textureLoader = new THREE.TextureLoader(loadingManager);
-            //var floortex = textureLoader.load('assets/floor_tex.jpg');
-            //var floordis = textureLoader.load('assets/floor_dis2.jpg');
-
             
-            //var walltex = textureLoader.load('assets/wall_tex2.jpg');
             var ceilingtex = textureLoader.load('assets/ceilingtex1.jpg');
 
             var walltex = textureLoader.load('assets/ceilingtex1.jpg');
 
-            var floortex = textureLoader.load('assets/ceilingtex1.jpg');
-
-
+            var floortex = textureLoader.load('assets/floorboardstex.jpg');
 
             var centertex = textureLoader.load('assets/ceilingtex1.jpg');
-            //var centernormaltex = textureLoader.load('assets/ceilingnormaltex.jpg');
-
-
 
             var ceilingnormaltex = textureLoader.load('assets/ceilingnormaltex.jpg');
 
             var curtaintex = textureLoader.load('assets/noisetex.jpg');
+            
             var curtainnormaltex = textureLoader.load('assets/leathernormaltex.jpg');
-            //var stagetex = textureLoader.load('assets/noisenormaltex.jpg');
             
 
-            //var stagetex = textureLoader.load('assets/stagetex.jpg');
             var video;
 
             walltex.wrapS = THREE.RepeatWrapping;
@@ -791,7 +781,7 @@
 
             floortex.wrapS = THREE.RepeatWrapping;
             floortex.wrapT = THREE.RepeatWrapping;
-            floortex.repeat.set(5,5);
+            floortex.repeat.set(100,100);
 
             /*
             
@@ -866,9 +856,11 @@
             
             ////////////////////   floor
             
-            var floormtl = new THREE.MeshLambertMaterial({
+            var floormtl = new THREE.MeshPhongMaterial({
                 map : floortex,
-                color: 0x0d0d0d
+                //aomap: floortex,
+                //color: 0xffffff,
+                shininess:0
 
             });
 
@@ -879,8 +871,8 @@
                 floormesh.traverse( function ( node ) {
 
                     if ( node.isMesh ) node.material = floormtl;             
-                    node.castShadow = true;                       
-                    node.receiveShadow = true;
+                    //node.castShadow = true;                       
+                    //node.receiveShadow = true;
                 } );
 
                 floormesh.position.y = 300;
@@ -890,9 +882,9 @@
 
             ///////////////////////   ceiling
 
-            var ceilingmtl = new THREE.MeshLambertMaterial({
+            var ceilingmtl = new THREE.MeshPhongMaterial({
                 map : ceilingtex,
-                color: 0x0d0d0d
+                color: 0x87CEEB,
 
             });
 
@@ -916,10 +908,10 @@
             ////////////////////   innerpainted
             
             
-            var innerpaintedmtl = new THREE.MeshLambertMaterial({
+            var innerpaintedmtl = new THREE.MeshPhongMaterial({
                 map : walltex,
                 //shininess : 0,
-                color: 0x191919,
+                color: 0x87CEEB,
                 //normalMap: curtainnormaltex,
             });
 
@@ -943,7 +935,7 @@
             
 
             var brickmtl = new THREE.MeshLambertMaterial({
-                map : centertex,
+                //map : centertex,
                 //shininess : 1,
                 color: 0x191919,
                 //normalMap: centernormaltex,
@@ -976,9 +968,9 @@
 
             var darkwoodmtl = new THREE.MeshStandardMaterial({
                 //map : ceilingtex,
-                metalness : 0.8,
-                roughness : 0.2,
-                color: 0x1c1c1c,
+                metalness : 1,
+                roughness : 1,
+                color: 0x8B4513,
                 //emissiveIntensity: 100
                 
 
@@ -1001,16 +993,17 @@
             ////////////////////   lightwood
 
             var lightwoodmtl = new THREE.MeshStandardMaterial({
-                map : curtaintex,
-                metalness : 0.5,
-                roughness : 0.5,
-                color: 0x000000,
-                emissive: 0x800080,
+                //map : curtaintex,
+                color: 0xFFDEAD,
+                metalness : 0.95,
+                roughness : 1
+
+                //emissive: 0x800080,
                 //emissiveIntensity: 100
-                emissiveMap: curtainnormaltex,
-                emissiveIntensity : 0.1,
-                normalMap: curtainnormaltex,
-                normalScale: new THREE.Vector2( 0, 0.5 )
+                //emissiveMap: curtainnormaltex,
+                //emissiveIntensity : 0.1,
+                //normalMap: curtainnormaltex,
+                //normalScale: new THREE.Vector2( 0, 0.5 )
 
             });
 
@@ -1036,9 +1029,7 @@
                 //map : ceilingtex,
                 metalness : 0.95,
                 roughness : 0,
-                color: 0x8c8c8c,
-                normalMap: ceilingnormaltex,
-                normalScale: new THREE.Vector2( 0, 0.4 )
+                color: 0xFFA500,
 
 
                 //emissiveIntensity: 100
@@ -1061,10 +1052,11 @@
 
             ////////////////////   blackwood
 
-                var blackwoodmtl = new THREE.MeshPhongMaterial({
-                map : floortex,
-                shininess : 30,
-                color: 0x404040,
+                var blackwoodmtl = new THREE.MeshStandardMaterial({
+                //map : floortex,
+                metalness : 0.95,
+                roughness : 0,
+                color: 0x000000,
                 //emissiveIntensity: 100
 
             });
@@ -1087,8 +1079,8 @@
             
             var shionemetalmtl = new THREE.MeshPhongMaterial({
                 //map : ceilingtex,
-                shininess : 15,
-                color: 0x000000,
+                shininess : 100,
+                color: 0xffffff,
                 //emissiveIntensity: 100
 
             });
@@ -1112,7 +1104,7 @@
             ////////////////////   blackmetal
 
             var blackmetalmtl = new THREE.MeshStandardMaterial({
-                map : floortex,
+                //map : floortex,
                 metalness : 0.5,
                 color: 0x595959,
                 //emissiveIntensity: 100
@@ -1137,13 +1129,9 @@
             ////////////////////   goldmetal
 
             var goldmetalmtl = new THREE.MeshStandardMaterial({
-                //map : ceilingtex,
-                transparent : true,
-                opacity : 0.68,
-                metalness : 0.6,
-                roughness : 0.2,
-                color: 0xff6600,
-                //emissiveIntensity: 100
+                metalness : 1,
+                roughness : 1,
+                color: 0xB8860B,
 
             });
 
@@ -1167,10 +1155,10 @@
             ////////////////////   redplastic
 
             var redplasticmtl = new THREE.MeshPhongMaterial({
-                shininess : 30,
+                shininess : 5,
 
                 //roughness : 0,
-                color: 0x000000,
+                color: 0xA52A2A,
                 //specular: 0x000000
                 //emissiveIntensity: 100
 
@@ -1195,16 +1183,8 @@
             
 
             var blueplasticmtl = new THREE.MeshPhongMaterial({
-                //map : ceilingtex,
-                //envMap : ceilingtex,
-                //roughness : 0.5,
-                //metalness : 1,
-                color: 0x000000,
-                shininess : 10, 
-                //ambient: 0x030303, 
-                //specular: 0x009900,
-                //refractionRatio : 0.5,
-                //emissiveIntensity: 100
+                color: 0x1E90FF,
+                shininess : 5, 
 
             });
 
@@ -1225,13 +1205,11 @@
 
             ////////////////////   whiteplastic
             
-            whiteplasticmtl = new THREE.MeshStandardMaterial({
+            whiteplasticmtl = new THREE.MeshPhongMaterial({
                 //map : curtaintex,
-                metalness: 0,
-                roughness : 1,
-                color: 0x000000,
-                emissiveIntensity: 1,
-                emissive: 'rgb(26%,26%,255%)'//0x1a1aff,
+                
+                shininess: 0.5,
+                color: 0xffffff,
 
 
             });
@@ -1253,7 +1231,7 @@
             ////////////////////   ground
 
             var groundmtl = new THREE.MeshStandardMaterial({
-            map : floortex,
+            //map : floortex,
             metalness : 0.5,
             color: 0x595959,
             //emissiveIntensity: 100
@@ -1271,7 +1249,7 @@
                 } );
 
                 groundmesh.position.y = 300;
-                scene.add( groundmesh );
+                //scene.add( groundmesh );
             });  
             
 
@@ -1371,8 +1349,8 @@
                 metalness: 0,
                 roughness : 1,
                 color: 0x000000,
-                emissiveIntensity: 1,
-                emissive: 'rgb(26%,26%,255%)'//0x1a1aff,
+                transparent: true,
+                opacity : 0.5
 
 
             });
@@ -1397,9 +1375,7 @@
                 //map : curtaintex,
                 metalness: 0,
                 roughness : 1,
-                color: 0x000000,
-                emissiveIntensity: 1,
-                emissive: 'rgb(26%,26%,255%)'//0x1a1aff,
+                color: 0xffffff,
 
 
             });
@@ -1424,8 +1400,6 @@
                 metalness: 0,
                 roughness : 1,
                 color: 0x000000,
-                emissiveIntensity: 1,
-                emissive: 'rgb(26%,26%,255%)'//0x1a1aff,
 
 
             });
@@ -1475,9 +1449,9 @@
                 //map : curtaintex,
                 metalness: 0,
                 roughness : 1,
-                color: 0x000000,
-                emissiveIntensity: 1,
-                emissive: 'rgb(26%,26%,255%)'//0x1a1aff,
+                color: 0xffffff,
+                //emissiveIntensity: 1,
+                //emissive: 'rgb(26%,26%,255%)'//0x1a1aff,
 
 
             });
@@ -1499,17 +1473,10 @@
                 ////////////////////   chaircloth1
     
                 
-                var chaircloth1mtl = new THREE.MeshPhongMaterial({
-                //map : ceilingtex,
-                //envMap : ceilingtex,
-                //roughness : 0.5,
-                //metalness : 1,
-                color: 0x000000,
-                shininess : 10, 
-                //ambient: 0x030303, 
-                //specular: 0x009900,
-                //refractionRatio : 0.5,
-                //emissiveIntensity: 100
+                var chaircloth1mtl = new THREE.MeshLambertMaterial({
+                color: 0x8b0000,
+                reflectivity: 0.1
+
 
             });
 
@@ -1530,13 +1497,9 @@
 
             ////////////////////   chaircloth2
             
-            chaircloth2mtl = new THREE.MeshStandardMaterial({
-                //map : curtaintex,
-                metalness: 0,
-                roughness : 1,
-                color: 0x000000,
-                emissiveIntensity: 1,
-                emissive: 'rgb(26%,26%,255%)'//0x1a1aff,
+            chaircloth2mtl = new THREE.MeshLambertMaterial({
+                color: 0xf5f5dc,
+                reflectivity: 0.1
 
 
             });
@@ -1613,9 +1576,7 @@
                 //map : curtaintex,
                 metalness: 0,
                 roughness : 1,
-                color: 0x000000,
-                emissiveIntensity: 1,
-                emissive: 'rgb(26%,26%,255%)'//0x1a1aff,
+                color: 0xffffff,
 
 
             });
